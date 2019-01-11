@@ -1,0 +1,11 @@
+#!/bin/bash
+ 
+for index in {1..500}
+do
+    username="test"$index
+    mobile=$[15557190201+$index]
+    param="username="${username}"&mobile="${mobile}"&gender=boy&password=123456"
+
+    # 添加用户
+    curl -d $param http://localhost:8888/vote/register/data
+done
