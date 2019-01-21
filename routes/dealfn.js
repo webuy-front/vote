@@ -122,7 +122,10 @@ let dealFn = {
     // 	}
     // }
     for (var i = 0; i < objs.length; i++) {
-      if (objs[i].actname === content || objs[i].actor === content) {
+      if (
+        objs[i].actname.indexOf(content) > -1 ||
+        objs[i].actor.indexOf(content) > -1
+      ) {
         searchResult.push(objs[i]);
       }
     }

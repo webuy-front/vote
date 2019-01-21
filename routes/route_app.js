@@ -96,6 +96,13 @@ exports.index_poll = (req, res) => {
     sendData.msg = "每个人最多能投5票，您已经使用完了";
     res.send(JSON.stringify(sendData));
     return;
+  } else {
+    if (maxVoteTimes - voter.vote_times - 1) {
+      sendData.msg +=
+        "，还有" +
+        (maxVoteTimes - voter.vote_times - 1) +
+        "次机会，投满5票才能生效哦～";
+    }
   }
   ownObj = dealFn.cloneUser(voter);
   pollUser.vfriend.push(ownObj);

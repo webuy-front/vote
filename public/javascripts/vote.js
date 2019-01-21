@@ -127,13 +127,12 @@ $(document).ready(function($) {
           "<span>" +
           objs[i].actname +
           "</span>" +
-          "<span>|</span>" +
-          "<span>演出者#" +
-          objs[i].actor +
+          "<span>#" +
+          objs[i].descrption +
           "</span>" +
           "</div>" +
           "<p>" +
-          objs[i].descrption +
+          objs[i].actor +
           "</p>" +
           "</a>" +
           "</div>" +
@@ -241,6 +240,7 @@ $(document).ready(function($) {
             $(_this)
               .siblings(".vote")
               .addClass("bounceIn");
+            alert(data.msg);
           } else {
             alert(data.msg);
           }
@@ -446,7 +446,7 @@ $(document).ready(function($) {
       });
     }
     $.ajax({
-      url: "/vote/index/data?limit=10&offset=0",
+      url: "/vote/index/data?limit=20&offset=0",
       type: "GET",
       success: function(data) {
         offset += limit;
@@ -455,32 +455,32 @@ $(document).ready(function($) {
         voteFn.userPoll();
       }
     });
-    loadMore({
-      callback: function(load) {
-        $.ajax({
-          url: "/vote/index/data?limit=" + limit + "&offset=" + offset,
-          type: "GET",
-          success: function(data) {
-            data = JSON.parse(data);
-            var total = data.data.total;
-            var objs = data.data.objects;
-            if (offset < total) {
-              setTimeout(function() {
-                offset += limit;
-                $(".coming").append(voteFn.programmeStr(objs));
-                voteFn.userPoll();
-                load.reset();
-              }, 1000);
-            } else {
-              load.complete();
-              setTimeout(function() {
-                load.reset();
-              }, 1000);
-            }
-          }
-        });
-      }
-    });
+    // loadMore({
+    //   callback: function(load) {
+    //     $.ajax({
+    //       url: "/vote/index/data?limit=" + limit + "&offset=" + offset,
+    //       type: "GET",
+    //       success: function(data) {
+    //         data = JSON.parse(data);
+    //         var total = data.data.total;
+    //         var objs = data.data.objects;
+    //         if (offset < total) {
+    //           setTimeout(function() {
+    //             offset += limit;
+    //             $(".coming").append(voteFn.programmeStr(objs));
+    //             voteFn.userPoll();
+    //             load.reset();
+    //           }, 1000);
+    //         } else {
+    //           load.complete();
+    //           setTimeout(function() {
+    //             load.reset();
+    //           }, 1000);
+    //         }
+    //       }
+    //     });
+    //   }
+    // });
     $(".search span").click(function(event) {
       var searchContent = $(".search input").val();
       voteFn.setStorage("searchContent", searchContent);
