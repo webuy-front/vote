@@ -1,7 +1,7 @@
 #!/bin/bash
  
-for index in {1..200}
+for index in {1..400}
 do
     # 投票
-    curl "http://localhost:8888/vote/index/poll?id=3&voterId="$index
+    curl "http://localhost:8888/vote/index/poll?id=6&voterId="$index
 done

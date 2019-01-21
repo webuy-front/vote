@@ -106,9 +106,16 @@ exports.index_poll = (req, res) => {
   }
   ownObj = dealFn.cloneUser(voter);
   pollUser.vfriend.push(ownObj);
-  // pollUser.vote++;
-  pollUser.vote = pollUser.vfriend.length;
+  pollUser.vote++;
   programmes.data.objects = dealFn.sortRank(programmes.data.objects);
+  dealFn.writeFileData("database.json", database).then(
+    msg => {
+      console.log(msg);
+    },
+    msg => {
+      console.log(msg);
+    }
+  );
   dealFn.writeFileData("programme.json", programmes).then(
     msg => {
       console.log(msg);
