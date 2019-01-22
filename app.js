@@ -25,6 +25,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.all("*", function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 //获得get请求，第一个参数是匹配内容，第二个参数是匹配成功后执行的回调函数
 app.get("/vote/index", routes.index);
 app.get(/\/vote\/detail/, routes.detail);
@@ -39,6 +44,9 @@ app.get(/\/vote\/all\/detail\/data/, routes.detail_data);
 
 app.post(/\/vote\/register\/data/, routes.register_data);
 app.post("/vote/index/info", routes.index_info);
+
+app.get("/vote/lottery/get", routes.lottery_get);
+app.get("/vote/lottery/save", routes.lottery_save);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

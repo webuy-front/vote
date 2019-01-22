@@ -7,6 +7,7 @@ let dealFn = require("./dealfn.js");
 
 let database = null;
 let programmes = null;
+let lottery = null;
 let maxVoteTimes = 5;
 
 dealFn.readFileData("database.json").then(
@@ -23,6 +24,16 @@ dealFn.readFileData("programme.json").then(
   data => {
     programmes = data;
     programmes.data.total = programmes.data.objects.length;
+  },
+  msg => {
+    console.log(msg);
+  }
+);
+
+dealFn.readFileData("lotteryData.json").then(
+  data => {
+    lottery = data;
+    lottery.data.total = lottery.data.objects.length;
   },
   msg => {
     console.log(msg);
@@ -223,5 +234,45 @@ exports.detail_data = (req, res) => {
     return b.time - a.time;
   });
   sendData.data = userDetailObj;
+  res.send(JSON.stringify(sendData));
+};
+
+exports.lottery_get = (req, res) => {
+  let sendObjs = lottery.data.objects,
+    sendData = {
+      errno: 0,
+      msg: "success",
+      data: {
+        objects: sendObjs
+      }
+    };
+
+  res.send(JSON.stringify(sendData));
+};
+
+exports.lottery_save = (req, res) => {
+  let lotteryData = req.query,
+    sendData = {
+      errno: 0,
+      msg: "insert success",
+      data: {}
+    };
+
+  if (lotteryData.log) {
+    lottery.data.objects.push({
+      time: new Date().toTimeString(),
+      data: lotteryData.log
+    });
+    dealFn.writeFileData("lotteryData.json", lottery).then(
+      msg => {
+        console.log(msg);
+      },
+      msg => {
+        console.log(msg);
+      }
+    );
+  } else {
+    sendData.msg = "insert error";
+  }
   res.send(JSON.stringify(sendData));
 };
