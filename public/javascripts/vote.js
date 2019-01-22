@@ -305,49 +305,49 @@ $(document).ready(function($) {
      * [密码显示处理]
      * @param  {String} className [类名]
      */
-    passwordDiaplay: function(className) {
-      var passwordReg = /^\**([A-Za-z0-9])$/;
-      var passwordInputs = document.querySelectorAll("." + className);
-      var currenLength = 0;
-      Array.prototype.forEach.call(passwordInputs, function(el, index) {
-        el.oninput = function(event) {
-          if (this.passwordStr === undefined) {
-            this.passwordStr = "";
-          }
-          if (this.starStr === undefined) {
-            this.starStr = "";
-          }
-          if (this.previousLength === undefined) {
-            this.previousLength = 0;
-          }
-          currenLength = this.value.split("").length;
-          if (currenLength < this.previousLength) {
-            this.passwordStr = this.passwordStr.split("");
-            this.passwordStr.length--;
-            this.passwordStr = this.passwordStr.join("");
-            $(this).attr("pword", this.passwordStr);
-            this.starStr = "";
-            for (var i = 0; i < currenLength; i++) {
-              this.starStr += "*";
-            }
-          } else if (currenLength === this.previousLength) {
-            console.log("0");
-          } else {
-            if ($(this).val()) {
-              this.starStr += "*";
-              if (passwordReg.test($(this).val())) {
-                this.passwordStr += passwordReg.exec($(this).val())[1];
-                $(this).attr("pword", this.passwordStr);
-                $(this).val(this.starStr);
-              } else {
-                alert("密码只能是阿拉伯数字数字或者英文字母");
-              }
-            }
-          }
-          this.previousLength = currenLength;
-        };
-      });
-    },
+    // passwordDiaplay: function(className) {
+    //   var passwordReg = /^\**([A-Za-z0-9])$/;
+    //   var passwordInputs = document.querySelectorAll("." + className);
+    //   var currenLength = 0;
+    //   Array.prototype.forEach.call(passwordInputs, function(el, index) {
+    //     el.oninput = function(event) {
+    //       if (this.passwordStr === undefined) {
+    //         this.passwordStr = "";
+    //       }
+    //       if (this.starStr === undefined) {
+    //         this.starStr = "";
+    //       }
+    //       if (this.previousLength === undefined) {
+    //         this.previousLength = 0;
+    //       }
+    //       currenLength = this.value.split("").length;
+    //       if (currenLength < this.previousLength) {
+    //         this.passwordStr = this.passwordStr.split("");
+    //         this.passwordStr.length--;
+    //         this.passwordStr = this.passwordStr.join("");
+    //         $(this).attr("pword", this.passwordStr);
+    //         this.starStr = "";
+    //         for (var i = 0; i < currenLength; i++) {
+    //           this.starStr += "*";
+    //         }
+    //       } else if (currenLength === this.previousLength) {
+    //         console.log("0");
+    //       } else {
+    //         if ($(this).val()) {
+    //           this.starStr += "*";
+    //           if (passwordReg.test($(this).val())) {
+    //             this.passwordStr += passwordReg.exec($(this).val())[1];
+    //             $(this).attr("pword", this.passwordStr);
+    //             $(this).val(this.starStr);
+    //           } else {
+    //             alert("密码只能是阿拉伯数字数字或者英文字母");
+    //           }
+    //         }
+    //       }
+    //       this.previousLength = currenLength;
+    //     };
+    //   });
+    // },
 
     /**
      * [两次输入密码确认]
@@ -367,7 +367,6 @@ $(document).ready(function($) {
     getRegisterData: function() {
       var username = $(".username").val();
       var mobile = $(".mobile").val();
-      //   var descrption = $(".descrption").val();
       var password = $(".initial_password").attr("pword");
       var gender = "";
       $(".gender input").each(function(index, el) {
@@ -379,18 +378,17 @@ $(document).ready(function($) {
         alert("请填写用户名称");
         return false;
       }
+      if ($(".confirm_password").val() != $(".initial_password").val()) {
+        alert("两次输入的密码不一致！");
+        return false;
+      }
       if (!/^\d{11}$/.test(mobile)) {
         alert("请填写正确格式的手机号码");
         return false;
       }
-      //   if (!descrption) {
-      //     alert("请填写自我描述内容");
-      //     return false;
-      //   }
       return {
         username: username,
         mobile: mobile,
-        // descrption: descrption,
         gender: gender,
         password: password
       };
@@ -401,7 +399,7 @@ $(document).ready(function($) {
      */
     maskDeal: function() {
       $(".mask").click(function(event) {
-        voteFn.passwordDiaplay("user_password");
+        // voteFn.passwordDiaplay("user_password");
         if (event.target.className === "mask") {
           $(".mask").hide();
         }
@@ -491,8 +489,8 @@ $(document).ready(function($) {
     /*报名页*/
     var rebtnFlag = true;
 
-    voteFn.passwordDiaplay("password");
-    voteFn.passwordConfirm("password");
+    // voteFn.passwordDiaplay("password");
+    // voteFn.passwordConfirm("password");
 
     $(".gender input").click(function(event) {
       $(this)
@@ -504,13 +502,6 @@ $(document).ready(function($) {
     });
     $(".rebtn").click(function(event) {
       if (!rebtnFlag) {
-        return;
-      }
-      if (
-        $(".confirm_password").attr("pword") !=
-        $(".initial_password").attr("pword")
-      ) {
-        alert("两次输入的密码不一致！");
         return;
       }
       rebtnFlag = false;
